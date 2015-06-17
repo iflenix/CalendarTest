@@ -1,9 +1,15 @@
 package com.storm.calendartest;
 
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.provider.CalendarContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,4 +41,29 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean isFirst = true;
+
+    public void onGetEventsButtonClick (View v){
+        ContentResolver cr = getContentResolver();
+
+        Cursor calCursor = cr.query(CalendarContract.Events.CONTENT_URI,null,null,null,null);
+        if(isFirst) {
+            if (calCursor.moveToFirst()) {
+
+                Toast.makeText(this, calCursor.getString(calCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE)), Toast.LENGTH_LONG).show();
+                isFirst = false;
+            }
+
+        }else if (calCursor.moveToNext()){
+
+                Toast.makeText(this, calCursor.getString(calCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE)), Toast.LENGTH_LONG).show();
+            }
+
+        calCursor.close();
+
+
+
+    }
+
 }
