@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
         Cursor calCursor = cr.query(CalendarContract.Events.CONTENT_URI,null,null,null,null);
         if(isFirst) {
+
             if (calCursor.moveToFirst()) {
 
                 Toast.makeText(this, calCursor.getString(calCursor.getColumnIndexOrThrow(CalendarContract.Events.TITLE)), Toast.LENGTH_LONG).show();
